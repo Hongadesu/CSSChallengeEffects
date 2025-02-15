@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day28</title>
+    <style>
+      /* Basic Settings */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        align-content: center;
+      }
+
+      .ctr {
+        width: 400px;
+        height: 400px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+
+      /* Day28 Styles */
+      :root {
+        --ctr-h: 400px;
+        --ctr-w: 400px;
+        --bell-w: 50px;
+        --bell-h: 54px;
+        --wave-size: 100px;
+      }
+
+      .ctr {
+        background: #dd3c54;
+        position: relative;
+      }
+
+      .bell {
+        position: absolute;
+        width: var(--bell-w);
+        height: var(--bell-h);
+        top: calc(50% - 0.5 * var(--bell-h));
+        left: calc(50% - 0.5 * var(--bell-w));
+        z-index: 6;
+
+        transform: rotate(0);
+        transform-origin: 50% 0;
+        animation: bell-ring 2s ease infinite;
+
+        & > svg {
+          fill: #fff;
+        }
+      }
+
+      .wave {
+        width: var(--wave-size);
+        height: var(--wave-size);
+        border-style: solid;
+        border-color: #fff;
+        border-radius: 50%;
+        position: absolute;
+        top: calc(50% - 0.5 * var(--wave-size));
+        left: calc(50% - 0.5 * var(--wave-size));
+
+        z-index: 1;
+        border-width: 0px;
+
+        &.wave1 {
+          animation: wave1 2s ease-out infinite forwards;
+        }
+
+        &.wave2 {
+          animation: wave2 2s ease-out infinite forwards;
+        }
+
+        &.wave3 {
+          animation: wave3 2s ease-out infinite forwards;
+        }
+      }
+
+      .mask {
+        width: var(--ctr-w);
+        height: var(--ctr-h);
+        background: #dd3c54;
+        position: absolute;
+        z-index: 4;
+
+        &.upMask {
+          top: 0;
+          left: 0;
+          clip-path: polygon(0 0, 100% 0, 50% 50%, 0 0);
+        }
+
+        &.downMask {
+          bottom: 0;
+          left: 0;
+          clip-path: polygon(0 100%, 50% 50%, 100% 100%, 0 100%);
+        }
+      }
+
+      /* 
+       * 只搖動 50% 的時間區間
+       * 另外 50% 不搖動。
+       */
+      @keyframes bell-ring {
+        /* Intense shaking, default 10deg */
+        0%,
+        15% {
+          transform: rotate(10deg);
+        }
+        10%,
+        25% {
+          transform: rotate(-10deg);
+        }
+        /* Light shaking, default 5deg */
+        30% {
+          transform: rotate(5deg);
+        }
+        40% {
+          transform: rotate(-5deg);
+        }
+        50%,
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+
+      /* 
+       * 波紋統一撥放 50% 的變化時間區間
+       */
+      @keyframes wave1 {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+          border-width: 2px;
+        }
+
+        50%,
+        100% {
+          transform: scale(2.5);
+          opacity: 0;
+          border-width: 4px;
+        }
+      }
+
+      /* 
+       * 這邊利用 wave 的連續 (9 -> 10) keyframe 模擬了
+       * 延遲撥放的機制。
+       */
+      @keyframes wave2 {
+        0%,
+        9% {
+          transform: scale(1);
+          opacity: 0;
+          border-width: 2px;
+        }
+
+        10% {
+          transform: scale(1);
+          opacity: 1;
+          border-width: 2px;
+        }
+
+        60%,
+        100% {
+          transform: scale(2.5);
+          opacity: 0;
+          border-width: 4px;
+        }
+      }
+
+      @keyframes wave3 {
+        0%,
+        19% {
+          transform: scale(1);
+          opacity: 0;
+          border-width: 2px;
+        }
+
+        20% {
+          transform: scale(1);
+          opacity: 1;
+          border-width: 2px;
+        }
+
+        70%,
+        100% {
+          transform: scale(2.5);
+          opacity: 0;
+          border-width: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 400 * 400 ctr canvas -->
+    <div class="ctr">
+      <div class="bell">
+        <svg viewBox="0 0 50 54" class="bell">
+          <path
+            d="M1.13063517,45.0453694 C1.88439195,45.7991262 2.80138269,46.1760046 3.82399539,46.1760046 L17.2955975,46.1760046 C17.2955975,48.331653 18.0493543,50.110423 19.5592683,51.6179365 C21.0667819,53.1254501 22.8983629,53.8816074 25.0012002,53.8816074 C27.1544481,53.8816074 28.9332181,53.1254501 30.4431322,51.6179365 C31.9506457,50.110423 32.7044025,48.331653 32.7044025,46.1760046 L46.1760046,46.1760046 C47.1986173,46.1760046 48.115608,45.7991262 48.8693648,45.0453694 C49.6231216,44.2892122 50,43.3746219 50,42.3496087 C46.1760046,39.1185367 43.3194104,35.1313073 41.379807,30.3879207 C39.4402036,25.6469346 38.4704018,20.6370925 38.4704018,15.408805 C38.4704018,12.0697105 37.5006001,9.48197225 35.6138077,7.54236881 C33.6742042,5.54995439 31.033655,4.41931922 27.6945605,3.98722934 C27.8553939,3.66316194 27.9106054,3.28628355 27.9106054,2.90940516 C27.9106054,2.10043689 27.639349,1.40189159 27.0488262,0.86177925 C26.5087138,0.268855922 25.807768,0 25.0012002,0 C24.192232,0 23.5464977,0.268855922 23.0063853,0.86177925 C22.413462,1.40189159 22.1446061,2.10043689 22.1446061,2.90940516 C22.1446061,3.28628355 22.1974171,3.66316194 22.360651,3.98722934 C19.019156,4.41931922 16.3786068,5.54995439 14.4390033,7.54236881 C12.4993999,9.48197225 11.5295982,12.0697105 11.5295982,15.408805 C11.5295982,20.6370925 10.5597964,25.6469346 8.620193,30.3879207 C6.68058956,35.1313073 3.82399539,39.1185367 0,42.3496087 C0,43.3746219 0.376878391,44.2892122 1.13063517,45.0453694 L1.13063517,45.0453694 Z M20.2050026,45.6911037 C20.52907,45.6911037 20.6899035,45.8519372 20.6899035,46.1760046 C20.6899035,47.3618513 21.1195929,48.384464 21.9837726,49.1934322 C22.7903404,50.0552115 23.8153536,50.4873014 25.0012002,50.4873014 C25.3228672,50.4873014 25.4861011,50.6481348 25.4861011,50.9722022 C25.4861011,51.2938691 25.3228672,51.4571031 25.0012002,51.4571031 C23.5464977,51.4571031 22.3054395,50.9169907 21.2828268,49.894378 C20.2578136,48.8693648 19.7201018,47.6307072 19.7201018,46.1760046 C19.7201018,45.8519372 19.8809352,45.6911037 20.2050026,45.6911037 L20.2050026,45.6911037 Z"
+          ></path>
+        </svg>
+      </div>
+      <div class="wave wave1"></div>
+      <div class="wave wave2"></div>
+      <div class="wave wave3"></div>
+      <div class="mask upMask"></div>
+      <div class="mask downMask"></div>
+    </div>
+  </body>
+</html>
