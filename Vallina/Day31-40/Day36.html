@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day36</title>
+    <style>
+      /* Basic Settings */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        align-content: center;
+      }
+
+      .ctr {
+        width: 400px;
+        height: 400px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+
+      /* Day36 Styles */
+      :root {
+        --card-w: 320px;
+        --card-h: 240px;
+        --nav-h: 40px;
+      }
+
+      .ctr {
+        background: #2b3642;
+        position: relative;
+        font-family: 'Open Sans', Helvetica, sans-serif;
+      }
+
+      .card {
+        width: var(--card-w);
+        height: var(--card-h);
+        box-shadow: 4px 8px 12px 0 rgba(0, 0, 0, 0.3);
+        position: absolute;
+        top: calc(50% - 0.5 * var(--card-h));
+        left: calc(50% - 0.5 * var(--card-w));
+      }
+
+      .nav {
+        height: var(--nav-h);
+        background: #3d4d5e;
+        display: flex;
+
+        & > input {
+          display: none;
+        }
+
+        & > .search {
+          height: var(--nav-h);
+          flex: 0 0 40px;
+          margin-left: auto;
+          cursor: pointer;
+
+          display: grid;
+          place-content: center;
+
+          & > svg {
+            fill: rgba(255, 255, 255, 0.3);
+          }
+        }
+
+        & > .search:hover {
+          & > svg {
+            fill: rgba(255, 255, 255, 1);
+          }
+        }
+
+        & > label {
+          cursor: pointer;
+          height: var(--nav-h);
+          flex: 0 0 40px;
+          background: transparent;
+          transition: all 0.5s;
+          display: grid;
+          place-content: center;
+
+          & > svg {
+            fill: rgba(255, 255, 255, 0.3);
+            transition: all 0.5s;
+          }
+
+          & > svg:hover {
+            fill: rgba(255, 255, 255, 1);
+          }
+        }
+
+        & > input:checked + label {
+          background: #5da2ed;
+
+          & > svg {
+            fill: rgba(255, 255, 255, 1);
+          }
+        }
+      }
+
+      .main {
+        height: calc(var(--card-h) - var(--nav-h));
+        background: #fff;
+        overflow: hidden;
+        padding: 25px;
+        box-sizing: border-box;
+
+        & > h3 {
+          font-weight: 400;
+          font-size: 16px;
+          color: #415868;
+          margin: 0;
+          padding: 0;
+          -webkit-font-smoothing: antialiased;
+        }
+      }
+
+      .paragraph {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin: 1rem 0;
+
+        & > span {
+          display: block;
+          height: 4px;
+          background: #e9e9e9;
+
+          &.line270 {
+            width: 270px;
+          }
+          &.line265 {
+            width: 265px;
+          }
+          &.line260 {
+            width: 260px;
+          }
+          &.line255 {
+            width: 255px;
+          }
+          &.line250 {
+            width: 250px;
+          }
+          &.line180 {
+            width: 180px;
+          }
+          &.line120 {
+            width: 120px;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 400 * 400 ctr canvas -->
+    <div class="ctr">
+      <div class="card">
+        <nav class="nav">
+          <input
+            checked
+            class="dashboard"
+            id="dashboard"
+            type="radio"
+            name="tab"
+          />
+          <label for="dashboard">
+            <svg
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <circle cx="256" cy="256" r="64" />
+              <path
+                d="M490.84 238.6c-26.46-40.92-60.79-75.68-99.27-100.53C349 110.55 302 96 255.66 96c-42.52 0-84.33 12.15-124.27 36.11-40.73 24.43-77.63 60.12-109.68 106.07a31.92 31.92 0 00-.64 35.54c26.41 41.33 60.4 76.14 98.28 100.65C162 402 207.9 416 255.66 416c46.71 0 93.81-14.43 136.2-41.72 38.46-24.77 72.72-59.66 99.08-100.92a32.2 32.2 0 00-.1-34.76zM256 352a96 96 0 1196-96 96.11 96.11 0 01-96 96z"
+              />
+            </svg>
+          </label>
+          <input class="comments" id="comments" type="radio" name="tab" />
+          <label for="comments">
+            <svg
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M398 81.84A227.4 227.4 0 00255.82 32C194.9 32 138 55.47 95.46 98.09 54.35 139.33 31.82 193.78 32 251.37a215.66 215.66 0 0035.65 118.76l.19.27c.28.41.57.82.86 1.22s.65.92.73 1.05l.22.4c1.13 2 2 4.44 1.23 6.9l-18.42 66.66a29.13 29.13 0 00-1.2 7.63A25.69 25.69 0 0076.83 480a29.44 29.44 0 0010.45-2.29l67.49-24.36.85-.33a14.75 14.75 0 015.8-1.15 15.12 15.12 0 015.37 1c1.62.63 16.33 6.26 31.85 10.6 12.9 3.6 39.74 9 60.77 9 59.65 0 115.35-23.1 156.83-65.06C457.36 365.77 480 310.42 480 251.49a213.5 213.5 0 00-4.78-45c-10.34-48.62-37.76-92.9-77.22-124.65zM87.48 380zM160 288a32 32 0 1132-32 32 32 0 01-32 32zm96 0a32 32 0 1132-32 32 32 0 01-32 32zm96 0a32 32 0 1132-32 32 32 0 01-32 32z"
+              />
+            </svg>
+          </label>
+          <input
+            class="notifications"
+            id="notifications"
+            type="radio"
+            name="tab"
+          />
+          <label for="notifications">
+            <svg
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M440.08 341.31c-1.66-2-3.29-4-4.89-5.93-22-26.61-35.31-42.67-35.31-118 0-39-9.33-71-27.72-95-13.56-17.73-31.89-31.18-56.05-41.12a3 3 0 01-.82-.67C306.6 51.49 282.82 32 256 32s-50.59 19.49-59.28 48.56a3.13 3.13 0 01-.81.65c-56.38 23.21-83.78 67.74-83.78 136.14 0 75.36-13.29 91.42-35.31 118-1.6 1.93-3.23 3.89-4.89 5.93a35.16 35.16 0 00-4.65 37.62c6.17 13 19.32 21.07 34.33 21.07H410.5c14.94 0 28-8.06 34.19-21a35.17 35.17 0 00-4.61-37.66zM256 480a80.06 80.06 0 0070.44-42.13 4 4 0 00-3.54-5.87H189.12a4 4 0 00-3.55 5.87A80.06 80.06 0 00256 480z"
+              />
+            </svg>
+          </label>
+          <input class="settings" id="settings" type="radio" name="tab" />
+          <label for="settings">
+            <svg
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <circle cx="256" cy="256" r="48" />
+              <path
+                d="M470.39 300l-.47-.38-31.56-24.75a16.11 16.11 0 01-6.1-13.33v-11.56a16 16 0 016.11-13.22L469.92 212l.47-.38a26.68 26.68 0 005.9-34.06l-42.71-73.9a1.59 1.59 0 01-.13-.22A26.86 26.86 0 00401 92.14l-.35.13-37.1 14.93a15.94 15.94 0 01-14.47-1.29q-4.92-3.1-10-5.86a15.94 15.94 0 01-8.19-11.82l-5.59-39.59-.12-.72A27.22 27.22 0 00298.76 26h-85.52a26.92 26.92 0 00-26.45 22.39l-.09.56-5.57 39.67a16 16 0 01-8.13 11.82 175.21 175.21 0 00-10 5.82 15.92 15.92 0 01-14.43 1.27l-37.13-15-.35-.14a26.87 26.87 0 00-32.48 11.34l-.13.22-42.77 73.95a26.71 26.71 0 005.9 34.1l.47.38 31.56 24.75a16.11 16.11 0 016.1 13.33v11.56a16 16 0 01-6.11 13.22L42.08 300l-.47.38a26.68 26.68 0 00-5.9 34.06l42.71 73.9a1.59 1.59 0 01.13.22 26.86 26.86 0 0032.45 11.3l.35-.13 37.07-14.93a15.94 15.94 0 0114.47 1.29q4.92 3.11 10 5.86a15.94 15.94 0 018.19 11.82l5.56 39.59.12.72A27.22 27.22 0 00213.24 486h85.52a26.92 26.92 0 0026.45-22.39l.09-.56 5.57-39.67a16 16 0 018.18-11.82c3.42-1.84 6.76-3.79 10-5.82a15.92 15.92 0 0114.43-1.27l37.13 14.95.35.14a26.85 26.85 0 0032.48-11.34 2.53 2.53 0 01.13-.22l42.71-73.89a26.7 26.7 0 00-5.89-34.11zm-134.48-40.24a80 80 0 11-83.66-83.67 80.21 80.21 0 0183.66 83.67z"
+              />
+            </svg>
+          </label>
+          <div class="search">
+            <svg
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              class="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M456.69 421.39L362.6 327.3a173.81 173.81 0 0034.84-104.58C397.44 126.38 319.06 48 222.72 48S48 126.38 48 222.72s78.38 174.72 174.72 174.72A173.81 173.81 0 00327.3 362.6l94.09 94.09a25 25 0 0035.3-35.3zM97.92 222.72a124.8 124.8 0 11124.8 124.8 124.95 124.95 0 01-124.8-124.8z"
+              />
+            </svg>
+          </div>
+        </nav>
+        <main class="main" id="main"></main>
+      </div>
+    </div>
+    <script>
+      const main = document.getElementById('main');
+      const dashboardInit = `
+        <h3>Dashboard</h3>
+        <p class="paragraph">
+          <span class="line260"></span><span class="line270"></span
+          ><span class="line250"></span><span class="line265"></span
+          ><span class="line120"></span>
+        </p>
+        <p class="paragraph">
+          <span class="line265"></span><span class="line250"></span
+          ><span class="line255"></span><span class="line265"></span
+          ><span class="line180"></span>
+        </p>
+      `;
+      main.innerHTML = dashboardInit;
+
+      const tabs = {
+        dashboard: 'Dashboard',
+        comments: 'Comments',
+        notifications: 'Notifications',
+        settings: 'Settings',
+      };
+      const spanTypes = [
+        'line270',
+        'line265',
+        'line260',
+        'line255',
+        'line250',
+        'line180',
+        'line120',
+      ];
+
+      Object.keys(tabs).forEach((key, i) => {
+        const tabCheckbox = document.getElementById(key);
+        if (key === 'dashboard') {
+          tabCheckbox.onclick = () => {
+            main.innerHTML = dashboardInit;
+          };
+          return;
+        }
+
+        const upParagraph = Array.from(
+          { length: 5 },
+          () =>
+            `<span class="${spanTypes[Math.floor(Math.random() * 7)]}"></span>`,
+        );
+        const downParagraph = Array.from(
+          { length: 5 },
+          () =>
+            `<span class="${spanTypes[Math.floor(Math.random() * 7)]}"></span>`,
+        );
+
+        tabCheckbox.onclick = () => {
+          main.innerHTML = `
+            <h3>${tabs[key]}</h3>
+            <p class="paragraph">
+              ${upParagraph.join('')}
+            </p>
+            <p class="paragraph">
+              ${downParagraph.join('')}
+            </p>
+          `;
+        };
+      });
+    </script>
+  </body>
+</html>

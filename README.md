@@ -39,6 +39,8 @@ Repository for recording my 100 Days CSS effects in different ways.
 
 #### Day36
 
+<img title="Day36" style="width: 150px"  src="./_results/Day36-display.gif">
+
 #### Day37
 
 #### Day38
