@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day35</title>
+    <style>
+      /* Basic Settings */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        align-content: center;
+      }
+
+      .ctr {
+        width: 400px;
+        height: 400px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+
+      /* Day35 Styles */
+      :root {
+        --loader-size: 100px;
+      }
+
+      .ctr {
+        background: #1bbe9e;
+        position: relative;
+      }
+
+      .loader {
+        position: absolute;
+        top: calc(50% - 0.5 * var(--loader-size));
+        left: calc(50% - 0.5 * var(--loader-size));
+
+        & > .bg {
+          fill: transparent;
+          stroke: #12836d;
+          stroke-width: 5px;
+        }
+
+        & > .progress {
+          fill: transparent;
+          stroke: #fff;
+          stroke-width: 5px;
+          stroke-dasharray: 290;
+          stroke-dashoffset: 290;
+          stroke-linecap: round;
+          transform-origin: center;
+
+          animation: progress-bouncing 2s linear infinite alternate-reverse,
+            rotation 3s linear infinite;
+        }
+      }
+
+      @keyframes progress-bouncing {
+        0% {
+          stroke-dashoffset: 290;
+        }
+        100% {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 400 * 400 ctr canvas -->
+    <div class="ctr">
+      <svg class="loader" width="100px" height="100px" viewBox="0 0 100 100">
+        <circle class="bg" cx="50" cy="50" r="46"></circle>
+        <circle class="progress" cx="50" cy="50" r="46"></circle>
+      </svg>
+    </div>
+  </body>
+</html>
