@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day37</title>
+    <style>
+      /* Basic Settings */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        align-content: center;
+      }
+
+      .ctr {
+        width: 400px;
+        height: 400px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 5px;
+      }
+
+      /* Day37 Styles */
+      :root {
+        --card-w: 140px;
+        --card-h: 130px;
+        --card-nav-h: 30px;
+      }
+
+      .ctr {
+        background: #5a717b;
+        position: relative;
+        perspective: 60px;
+        transform-style: preserve-3d;
+      }
+
+      .card {
+        width: var(--card-w);
+        height: var(--card-h);
+        position: absolute;
+        top: calc(50% - 0.5 * var(--card-h));
+        left: calc(50% - 0.5 * var(--card-w));
+        border-radius: 3px;
+        box-shadow: 4px 8px 12px 0px rgba(0, 0, 0, 0.2);
+        overflow: auto;
+
+        &.card1 {
+          animation: card1-display 7s ease-in-out infinite both;
+        }
+
+        &.card2 {
+          animation: card2-display 7s ease-in-out infinite both;
+        }
+
+        &.card3 {
+          animation: card3-display 7s ease-in-out infinite both;
+        }
+
+        &.card4 {
+          animation: card4-display 7s ease-in-out infinite both;
+        }
+      }
+
+      .nav {
+        height: var(--card-nav-h);
+        width: 100%;
+        background: #ff9800;
+      }
+
+      .content {
+        height: calc(var(--card-h) - var(--card-nav-h));
+        width: 100%;
+        background: #fff;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+
+      .paragraph {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        & > span {
+          display: block;
+          height: 4px;
+          background: #e9e9e9;
+
+          &.line70 {
+            width: 70px;
+          }
+          &.line80 {
+            width: 80px;
+          }
+          &.line100 {
+            width: 100px;
+          }
+          &.line105 {
+            width: 105px;
+          }
+          &.line110 {
+            width: 110px;
+          }
+        }
+      }
+
+      :root {
+        --position-1: translate3d(0, 0, 0);
+        --position-2: translate3d(calc(1 * var(--card-w) + 5px), 0, -45px);
+        --position-3: translate3d(0, 0, -90px);
+        --position-4: translate3d(calc(-1 * var(--card-w) - 5px), 0, -45px);
+      }
+
+      @keyframes card1-display {
+        0%,
+        100% {
+          transform: var(--position-1);
+          z-index: 4;
+        }
+
+        25% {
+          transform: var(--position-2);
+          z-index: 3;
+        }
+
+        50% {
+          transform: var(--position-3);
+          z-index: 1;
+        }
+
+        75% {
+          transform: var(--position-4);
+          z-index: 2;
+        }
+      }
+
+      @keyframes card2-display {
+        0%,
+        100% {
+          transform: var(--position-2);
+          z-index: 3;
+        }
+
+        25% {
+          transform: var(--position-3);
+          z-index: 1;
+        }
+
+        50% {
+          transform: var(--position-4);
+          z-index: 2;
+        }
+
+        75% {
+          transform: var(--position-1);
+          z-index: 4;
+        }
+      }
+
+      @keyframes card3-display {
+        0%,
+        100% {
+          transform: var(--position-3);
+          z-index: 1;
+        }
+
+        25% {
+          transform: var(--position-4);
+          z-index: 2;
+        }
+
+        50% {
+          transform: var(--position-1);
+          z-index: 4;
+        }
+
+        75% {
+          transform: var(--position-2);
+          z-index: 3;
+        }
+      }
+
+      @keyframes card4-display {
+        0%,
+        100% {
+          transform: var(--position-4);
+          z-index: 2;
+        }
+
+        25% {
+          transform: var(--position-1);
+          z-index: 4;
+        }
+
+        50% {
+          transform: var(--position-2);
+          z-index: 3;
+        }
+
+        75% {
+          transform: var(--position-3);
+          z-index: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 400 * 400 ctr canvas -->
+    <div class="ctr" id="main">
+      <!-- <div class="card card1">
+        <div class="nav"></div>
+        <div class="content">
+          <div class="paragraph">
+            <span class="line100"></span><span class="line105"></span
+            ><span class="line110"></span><span class="line105"></span
+            ><span class="line80"></span>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <script>
+      const spanTypes = ['line70', 'line80', 'line100', 'line105', 'line110'];
+
+      const cardNum = 4;
+      const spanPerParagraph = 5;
+      const main = document.getElementById('main');
+
+      const innerHTMLs = [];
+      for (let i = 0, len = cardNum; i < len; i++) {
+        const paragraph = Array.from(
+          { length: spanPerParagraph },
+          () =>
+            `<span class="${spanTypes[Math.floor(Math.random() * 7)]}"></span>`,
+        );
+        innerHTMLs.push(
+          `
+          <div class="card card${i + 1}">
+            <div class="nav"></div>
+            <div class="content">
+              <div class="paragraph">
+                ${paragraph.join('')}
+              </div>
+            </div>
+          </div>
+          `,
+        );
+      }
+      main.innerHTML = innerHTMLs.join('');
+    </script>
+  </body>
+</html>

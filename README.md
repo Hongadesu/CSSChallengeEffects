@@ -31,17 +31,19 @@ Repository for recording my 100 Days CSS effects in different ways.
 
 #### Day34
 
-<img title="Day34" style="width: 150px"  src="./_results/Day34-display.gif">
+<img title="Day34" style="width: 150px" src="./_results/Day34-display.gif">
 
 #### Day35
 
-<img title="Day35" style="width: 150px"  src="./_results/Day35-display.gif">
+<img title="Day35" style="width: 150px" src="./_results/Day35-display.gif">
 
 #### Day36
 
-<img title="Day36" style="width: 150px"  src="./_results/Day36-display.gif">
+<img title="Day36" style="width: 150px" src="./_results/Day36-display.gif">
 
 #### Day37
+
+<img title="Day37" style="width: 150px" src="./_results/Day37-display.gif">
 
 #### Day38
 
